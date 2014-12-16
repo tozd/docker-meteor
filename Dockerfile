@@ -1,5 +1,7 @@
 FROM tozd/runit
 
+EXPOSE 3000/tcp
+
 COPY ./etc /etc
 
 ONBUILD COPY . /source
