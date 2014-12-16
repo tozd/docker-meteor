@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+[ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
+
+cd /bundle
+exec chpst -u meteor:meteor /usr/bin/nodejs main.js 2>&1
+
