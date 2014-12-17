@@ -1,7 +1,11 @@
 #!/bin/bash -e
 
+export NODE_ENV="production"
+
+[ -f /etc/service/meteor/run.env ] && source /etc/service/meteor/run.env
+
 [ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
 
 cd /bundle
-exec chpst -u meteor:meteor /usr/bin/nodejs main.js 2>&1
+exec chpst -u meteor:meteor /usr/local/bin/node main.js 2>&1
 
