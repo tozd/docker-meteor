@@ -6,6 +6,10 @@ export NODE_ENV="production"
 
 [ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
 
+# Wait for the database to become reachable before connecting using node
+cd /bundle/programs/server/npm/mongo
+cat /etc/service/meteor/wait_db.js | /usr/local/bin/node
+
 cd /bundle
-exec chpst -u meteor:meteor /usr/local/bin/node main.js 2>&1
+exec chpst -u meteor:meteor /usr/local/bin/node --stack-trace-limit=1000 main.js 2>&1
 
