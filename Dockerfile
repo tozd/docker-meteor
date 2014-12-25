@@ -17,7 +17,7 @@ ONBUILD RUN apt-get update -q -q && \
  cd / && \
  tar xf /build/build.tar.gz && \
  rm -rf /build && \
- export NODE=$(find /.meteor/ -path '*bin/node') && \
+ export "NODE=$(find /.meteor/ -path '*bin/node' | sort | tail -n 1)" && \
  ln -sf ${NODE} /usr/local/bin/node && \
  echo "export NODE_PATH=\"$(dirname $(dirname "$NODE"))/lib/node_modules\"" >> /etc/service/meteor/run.env && \
  apt-get --yes --force-yes purge curl && \
