@@ -13,6 +13,7 @@ ONBUILD RUN apt-get update -q -q && \
  rm -rf /source && \
  curl https://install.meteor.com/ | sh && \
  cd /build && \
+ meteor list && \
  meteor build . && \
  cd / && \
  tar xf /build/build.tar.gz && \
