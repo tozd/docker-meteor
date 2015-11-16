@@ -11,7 +11,7 @@ ONBUILD RUN apt-get update -q -q && \
  if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
  cp -a /source /build && \
  rm -rf /source && \
- curl https://install.meteor.com/ | sh && \
+ curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
  cd /build && \
  meteor list && \
  meteor build . && \
