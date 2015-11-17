@@ -2,6 +2,8 @@
 
 export NODE_ENV="production"
 
+# File created by Dockerfile containing NODE_PATH to Meteor's node.
+# We are making Meteor's node be useful system wide.
 [ -f /etc/service/meteor/run.env ] && source /etc/service/meteor/run.env
 
 [ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
