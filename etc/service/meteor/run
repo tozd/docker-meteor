@@ -6,8 +6,14 @@ export NODE_ENV="production"
 
 [ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
 
-# Wait for the database to become reachable before connecting using node
-cd /bundle/programs/server/npm/mongo
+# Wait for the database to become reachable before connecting using node.
+if [ -e /bundle/programs/server/npm/npm-mongo ]; then
+  # Meteor 1.2 location.
+  cd /bundle/programs/server/npm/npm-mongo
+else
+  # Before Meteor 1.2 location.
+  cd /bundle/programs/server/npm/mongo
+fi
 cat /etc/service/meteor/wait_db.js | /usr/local/bin/node
 
 cd /bundle
