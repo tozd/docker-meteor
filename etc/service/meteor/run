@@ -6,7 +6,8 @@ export NODE_ENV="production"
 # We are making Meteor's node be useful system wide.
 [ -f /etc/service/meteor/run.env ] && source /etc/service/meteor/run.env
 
-[ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
+# You can mount a volume (file) into this location to provide a script which sets environment variables.
+[ -f /etc/service/meteor/run.config ] && source /etc/service/meteor/run.config
 
 # Wait for the database to become reachable before connecting using node.
 if [ -e /bundle/programs/server/npm/npm-mongo ]; then
@@ -18,6 +19,8 @@ else
 fi
 cat /etc/service/meteor/wait_db.js | /usr/local/bin/node
 
+# Initialization hook.
+[ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
+
 cd /bundle
 exec chpst -u meteor:meteor /usr/local/bin/node --stack-trace-limit=1000 main.js 2>&1
-

@@ -2,6 +2,8 @@ FROM tozd/runit
 
 EXPOSE 3000/tcp
 
+VOLUME /var/log/meteor
+
 COPY ./etc /etc
 
 ONBUILD COPY . /source
@@ -31,4 +33,3 @@ ENV METEOR_SETTINGS {}
 ENV PORT 3000
 ENV MONGO_URL mongodb://mongodb/meteor
 ENV MONGO_OPLOG_URL mongodb://mongodb/local
-
