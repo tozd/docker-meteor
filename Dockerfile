@@ -15,8 +15,8 @@ ONBUILD RUN apt-get update -q -q && \
  rm -rf /source && \
  curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
  cd /build && \
- meteor list && \
- meteor build . && \
+ METEOR_PROGRESS_DEBUG=1 meteor list && \
+ METEOR_PROGRESS_DEBUG=1 meteor build . && \
  cd / && \
  tar xf /build/build.tar.gz && \
  rm -rf /build && \
