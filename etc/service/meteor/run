@@ -10,7 +10,10 @@ export NODE_ENV="production"
 [ -f /etc/service/meteor/run.config ] && source /etc/service/meteor/run.config
 
 # Wait for the database to become reachable before connecting using node.
-if [ -e /bundle/programs/server/npm/npm-mongo ]; then
+if [ -e /bundle/programs/server/npm/node_modules/meteor/npm-mongo ]; then
+  # Meteor 1.3 location.
+  cd /bundle/programs/server/npm/node_modules/meteor/npm-mongo
+elif [ -e /bundle/programs/server/npm/npm-mongo ]; then
   # Meteor 1.2 location.
   cd /bundle/programs/server/npm/npm-mongo
 else
