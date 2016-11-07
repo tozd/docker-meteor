@@ -13,10 +13,11 @@ ONBUILD RUN apt-get update -q -q && \
  if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
  cp -a /source /build && \
  rm -rf /source && \
- curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
+ export METEOR_NO_RELEASE_CHECK=true && \
+ curl https://install.meteor.com/?release=1.4.1.3 | sed s/--progress-bar/-sL/g | sh && \
  cd /build && \
- METEOR_PROGRESS_DEBUG=1 meteor --unsafe-perm list && \
- METEOR_PROGRESS_DEBUG=1 meteor --unsafe-perm build . && \
+ METEOR_PROGRESS_DEBUG=1 meteor list && \
+ METEOR_PROGRESS_DEBUG=1 meteor build . && \
  cd / && \
  tar xf /build/build.tar.gz && \
  rm -rf /build && \
