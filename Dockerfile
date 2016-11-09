@@ -17,6 +17,7 @@ ONBUILD RUN apt-get update -q -q && \
  curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
  cd /build && \
  METEOR_PROGRESS_DEBUG=1 meteor list && \
+ if [ -f package.json ]; then meteor npm install --production; fi && \
  METEOR_PROGRESS_DEBUG=1 meteor build . && \
  cd / && \
  tar xf /build/build.tar.gz && \
