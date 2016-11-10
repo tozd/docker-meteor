@@ -16,9 +16,9 @@ ONBUILD RUN apt-get update -q -q && \
  export METEOR_ALLOW_SUPERUSER=true && \
  curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
  cd /build && \
- METEOR_PROGRESS_DEBUG=1 meteor list && \
+ meteor list && \
  if [ -f package.json ]; then meteor npm install --production; fi && \
- METEOR_PROGRESS_DEBUG=1 meteor build . && \
+ meteor build --headless . && \
  cd / && \
  tar xf /build/build.tar.gz && \
  rm -rf /build && \
