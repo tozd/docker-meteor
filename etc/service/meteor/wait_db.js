@@ -13,10 +13,16 @@ function tryConnect(url) {
           }
           return;
         }
+        else {
+          console.error("Waiting for database", error);
+        }
 
         setTimeout(function() { tryConnect(url) }, 100);
       });
       return;
+    }
+    else {
+      console.error("Waiting for database", error);
     }
 
     setTimeout(function() { tryConnect(url) }, 100);
