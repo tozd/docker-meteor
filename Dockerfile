@@ -9,7 +9,7 @@ COPY ./etc /etc
 ONBUILD COPY . /source
 ONBUILD ENV HOME /
 ONBUILD RUN apt-get update -q -q && \
- apt-get --yes --force-yes install curl python && \
+ apt-get --yes --force-yes install curl python build-essential && \
  if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
  cp -a /source /build && \
  rm -rf /source && \
