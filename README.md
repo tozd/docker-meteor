@@ -11,7 +11,7 @@ And your Meteor application is dockerized.
 
 The intended use of this image is that it is run alongside the
 [tozd/meteor-mongodb](https://github.com/tozd/docker-meteor-mongodb) image for MongoDB database for your Meteor
-application.
+application, with support from [tozd/docker-nginx-proxy](https://github.com/tozd/docker-meteor).
 
 When running Docker image with your Meteor application, you have to configure the following environment variables:
 
