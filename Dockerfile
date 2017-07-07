@@ -27,6 +27,7 @@ RUN apt-get update -q -q && \
 
 ONBUILD COPY . /source
 ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
+ rm -rf /source/.meteor/local /source/node_modules && \
  if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
  cp -a /source /build && \
  rm -rf /source && \
