@@ -7,7 +7,12 @@ with the following content:
 FROM tozd/meteor
 ```
 
-And your Meteor application is dockerized.
+And your Meteor application is dockerized. To optimize image building, especially if you are building the image from a directory where you are also developing the application, add `.dockerignore` file with something like:
+
+```
+.meteor/local
+node_modules
+```
 
 The intended use of this image is that it is run alongside the
 [tozd/meteor-mongodb](https://github.com/tozd/docker-meteor-mongodb) image for MongoDB database for your Meteor
