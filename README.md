@@ -11,6 +11,7 @@ And your Meteor application is dockerized. To optimize image building, especiall
 
 ```
 .meteor/local
+packages/*/.build*
 node_modules
 ```
 
