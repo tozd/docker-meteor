@@ -1,4 +1,4 @@
-FROM tozd/runit:ubuntu-trusty
+FROM tozd/runit:ubuntu-xenial
 
 EXPOSE 3000/tcp
 
