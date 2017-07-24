@@ -15,7 +15,7 @@ VOLUME /var/log/meteor
 COPY ./etc /etc
 
 RUN apt-get update -q -q && \
- apt-get --yes --force-yes install curl python build-essential && \
+ apt-get --yes --force-yes install curl python build-essential git && \
  export METEOR_ALLOW_SUPERUSER=true && \
  curl https://install.meteor.com/ | sed s/--progress-bar/-sL/g | sh && \
  apt-get --yes --force-yes purge curl && \
