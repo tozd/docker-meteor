@@ -49,3 +49,7 @@ You can export also other environment variables.
 When you are extending this image, you can add a script `/etc/service/meteor/run.initialization`
 which will be run at a container startup, after the container is initialized, but before the
 Meteor application is run.
+
+If you have to do anything to the base Docker image, before your Meteor application starts building (e.g., installing
+an Ubuntu package), add a `docker-source.sh` file to the root of your Meteor application and it will be run
+before the build.
