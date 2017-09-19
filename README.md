@@ -26,8 +26,9 @@ When running Docker image with your Meteor application, you have to configure th
 * `MAIL_URL` – used to configure [e-mail server](http://docs.meteor.com/#/full/email);
   example: `smtp://user:password@mailhost:port/`
 * `METEOR_SETTINGS` – JSON string of your [Meteor settings](http://docs.meteor.com/#/full/meteor_settings)
-* `MONGO_URL` - MongoDB database URL; example: `mongodb://mongodb/meteor`
+* `MONGO_URL` – MongoDB database URL; example: `mongodb://mongodb/meteor`
 * `MONGO_OPLOG_URL` – MongoDB database oplog URL; example: `mongodb://mongodb/local`
+* `LOG_TO_STDOUT` – If set to `1` log output to stdout instead to `/var/log/meteor`
 
 You can specify those environment variables when running an image, but you can also export them from the script
 file volume mounted under `/etc/service/meteor/run.config`.

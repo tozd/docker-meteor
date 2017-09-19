@@ -9,6 +9,7 @@ ENV PORT 3000
 ENV MONGO_URL mongodb://mongodb/meteor
 ENV MONGO_OPLOG_URL mongodb://mongodb/local
 ENV HOME /
+ENV LOG_TO_STDOUT 0
 
 VOLUME /var/log/meteor
 
