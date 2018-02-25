@@ -24,6 +24,7 @@ RUN apt-get update -q -q && \
  adduser --system --group meteor --home / && \
  export "NODE=$(find /.meteor/ -path '*bin/node' | grep '/.meteor/packages/meteor-tool/' | sort | head -n 1)" && \
  ln -sf ${NODE} /usr/local/bin/node && \
+ ln -sf "$(dirname "$NODE")/npm" /usr/local/bin/npm && \
  echo "export NODE_PATH=\"$(dirname $(dirname "$NODE"))/lib/node_modules\"" >> /etc/service/meteor/run.env
 
 ONBUILD COPY . /source
@@ -38,4 +39,5 @@ ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
  meteor build --headless . && \
  cd / && \
  tar xf /build/build.tar.gz && \
- rm -rf /build
+ rm -rf /build && \
+ if [ -e /bundle/programs/server/package.json ]; then cd /bundle/programs/server; npm install; fi
