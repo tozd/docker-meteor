@@ -25,7 +25,12 @@ RUN apt-get update -q -q && \
  export "NODE=$(find /.meteor/ -path '*bin/node' | grep '/.meteor/packages/meteor-tool/' | sort | head -n 1)" && \
  ln -sf ${NODE} /usr/local/bin/node && \
  ln -sf "$(dirname "$NODE")/npm" /usr/local/bin/npm && \
- echo "export NODE_PATH=\"$(dirname $(dirname "$NODE"))/lib/node_modules\"" >> /etc/service/meteor/run.env
+ echo "export NODE_PATH=\"$(dirname $(dirname "$NODE"))/lib/node_modules\"" >> /etc/service/meteor/run.env && \
+ locale-gen --no-purge en_US.UTF-8 && \
+ update-locale LANG=en_US.UTF-8 && \
+ echo locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8 | debconf-set-selections && \
+ echo locales locales/default_environment_locale select en_US.UTF-8 | debconf-set-selections && \
+ dpkg-reconfigure locales
 
 ONBUILD COPY . /source
 ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
