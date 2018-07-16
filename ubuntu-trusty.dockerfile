@@ -41,8 +41,7 @@ ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
  cd /build && \
  meteor list && \
  if [ -f package.json ]; then meteor npm install --production --unsafe-perm; fi && \
- meteor build --headless . && \
+ meteor build --headless --directory / && \
  cd / && \
- tar xf /build/build.tar.gz && \
  rm -rf /build && \
  if [ -e /bundle/programs/server/package.json ]; then cd /bundle/programs/server; npm install --unsafe-perm; fi
