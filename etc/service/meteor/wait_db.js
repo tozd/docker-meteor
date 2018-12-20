@@ -4,15 +4,12 @@ var waitingFor = 2;
 
 function tryConnect(url) {
   mongodb.MongoClient.connect(url, {
-      server: {
-        socketOptions: {
-          connectTimeoutMS: 5000,
-          socketTimeoutMS: 5000
-        }
-      }
+    useNewUrlParser: true,
+    socketTimeoutMS: 5000,
+    connectTimeoutMS: 5000
     }, function (error, db) {
     if (error === null) {
-      db.command({ping: 1}, function(error, result) {
+      db.db(db.s.options.db).command({ping: 1}, function(error, result) {
         if (error === null) {
           if (--waitingFor <= 0) {
             process.exit(0);
@@ -37,4 +34,3 @@ function tryConnect(url) {
 
 tryConnect(process.env.MONGO_URL);
 tryConnect(process.env.MONGO_OPLOG_URL);
-
