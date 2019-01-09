@@ -2,35 +2,62 @@ var mongodb = require('mongodb');
 
 var waitingFor = 2;
 
+/**
+ * Responds to the ping command handling error and success
+ *
+ */
+function handlePing(error, result) {
+  if (error === null) {
+    if (--waitingFor <= 0) {
+      process.exit(0);
+    }
+    return;
+  }
+  else {
+    console.error("Waiting for database", error);
+  }
+
+  setTimeout(function() { tryConnect(url); }, 100);
+}
+
+/**
+ * Attempts to connect to mongodb instance and checks if database exists
+ *
+ */
 function tryConnect(url) {
-  mongodb.MongoClient.connect(url, {
-    useNewUrlParser: true,
-    socketTimeoutMS: 5000,
-    connectTimeoutMS: 5000
-    }, function (error, client) {
-    if (error === null) {
 
-      var handleFun = function(error, result) {
-        if (error === null) {
-          if (--waitingFor <= 0) {
-            process.exit(0);
+  var params = {
+    options: {
+      useNewUrlParser: true,
+      socketTimeoutMS: 5000,
+      connectTimeoutMS: 5000
+    },
+    ping: function(client) {
+      return client.db(client.s.options.db).command({ping: 1}, handlePing);
+    }
+  };
+
+  // Backwards compatible with MongoClient v2
+  if (mongodb.MongoClient.define !== undefined) {
+    params = {
+      options: {
+        server: {
+          socketOptions: {
+            connectTimeoutMS: 5000,
+            socketTimeoutMS: 5000
           }
-          return;
         }
-        else {
-          console.error("Waiting for database", error);
-        }
-
-        setTimeout(function() { tryConnect(url); }, 100);
-      };
-
-      if (client.command === undefined) {
-        // MongoClient version 3
-        client.db(client.s.options.db).command({ping: 1}, handleFun);
-      } else {
-        // Backwards compatibility for MongoClient version 2
-       db.command({ping: 1}, handleFun);
+      },
+      ping: function(client) {
+        return client.command({ping: 1}, handlePing);
       }
+    };
+  }
+
+  // Connect to mongo instance
+  mongodb.MongoClient.connect(url, params.options, function (error, client) {
+    if (error === null) {
+      params.ping(client);
       return;
     }
     else {
