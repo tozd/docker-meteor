@@ -3,28 +3,26 @@ var mongodb = require('mongodb');
 var waitingFor = 2;
 
 /**
- * Responds to the ping command handling error and success
- *
- */
-function handlePing(error, result) {
-  if (error === null) {
-    if (--waitingFor <= 0) {
-      process.exit(0);
-    }
-    return;
-  }
-  else {
-    console.error("Waiting for database", error);
-  }
-
-  setTimeout(function() { tryConnect(url); }, 100);
-}
-
-/**
  * Attempts to connect to mongodb instance and checks if database exists
  *
  */
 function tryConnect(url) {
+
+  // Responds to the ping command handling error and success, needs to be inside
+  //  tryConnect as url parameter is required to retry
+  var handlePing = function(error, result) {
+    if (error === null) {
+      if (--waitingFor <= 0) {
+        process.exit(0);
+      }
+      return;
+    }
+    else {
+      console.error("Waiting for database", error);
+    }
+
+    setTimeout(function() { tryConnect(url); }, 100);
+  };
 
   var params = {
     options: {
