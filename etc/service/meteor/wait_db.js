@@ -7,9 +7,10 @@ function tryConnect(url) {
     useNewUrlParser: true,
     socketTimeoutMS: 5000,
     connectTimeoutMS: 5000
-    }, function (error, db) {
+    }, function (error, client) {
     if (error === null) {
-      db.db(db.s.options.db).command({ping: 1}, function(error, result) {
+
+      var handleFun = function(error, result) {
         if (error === null) {
           if (--waitingFor <= 0) {
             process.exit(0);
@@ -20,15 +21,23 @@ function tryConnect(url) {
           console.error("Waiting for database", error);
         }
 
-        setTimeout(function() { tryConnect(url) }, 100);
-      });
+        setTimeout(function() { tryConnect(url); }, 100);
+      };
+
+      if (client.command === undefined) {
+        // MongoClient version 3
+        client.db(client.s.options.db).command({ping: 1}, handleFun);
+      } else {
+        // Backwards compatibility for MongoClient version 2
+       db.command({ping: 1}, handleFun);
+      }
       return;
     }
     else {
       console.error("Waiting for database", error);
     }
 
-    setTimeout(function() { tryConnect(url) }, 100);
+    setTimeout(function() { tryConnect(url); }, 100);
   });
 }
 
