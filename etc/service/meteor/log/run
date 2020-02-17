@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# You can mount a volume (file) into this location to provide a script which sets environment variables.
+[ -f /etc/service/meteor/run.config ] && source /etc/service/meteor/run.config
+
 if [ "${LOG_TO_STDOUT}" != "1" ]; then
   mkdir -p /var/log/meteor
   chown nobody:nogroup /var/log/meteor
