@@ -1,4 +1,4 @@
-Image which can serve as a base Docker image for dockerizing [Meteor](meteor.com) applications.
+Image which can serve as a base Docker image for dockerizing [Meteor](https://www.meteor.com/) applications.
 
 In the root directory of your Meteor application (the one with `.meteor` directory) create a `Dockerfile` file
 with the following content:
