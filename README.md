@@ -4,7 +4,7 @@ In the root directory of your Meteor application (the one with `.meteor` directo
 with the following content:
 
 ```
-FROM tozd/meteor:ubuntu-bionic
+FROM tozd/meteor:ubuntu-focal
 ```
 
 And your Meteor application is dockerized. To optimize image building, especially if you are building the image from a directory where you are also developing the application, add `.dockerignore` file with something like:
