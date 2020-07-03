@@ -32,7 +32,8 @@ RUN apt-get update -q -q && \
  update-locale LANG=en_US.UTF-8 && \
  echo locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8 | debconf-set-selections && \
  echo locales locales/default_environment_locale select en_US.UTF-8 | debconf-set-selections && \
- dpkg-reconfigure locales
+ dpkg-reconfigure locales && \
+ apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
 ONBUILD COPY . /source
 ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
@@ -46,4 +47,5 @@ ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
  meteor build --headless --directory / && \
  cd / && \
  rm -rf /build && \
- if [ -e /bundle/programs/server/package.json ]; then cd /bundle/programs/server; npm install --unsafe-perm; fi
+ if [ -e /bundle/programs/server/package.json ]; then cd /bundle/programs/server; npm install --unsafe-perm; fi && \
+ apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
