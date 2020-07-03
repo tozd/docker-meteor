@@ -20,7 +20,7 @@ node_modules
 ```
 
 The intended use of this image is that it is run alongside the
-[tozd/meteor-mongodb](https://github.com/tozd/docker/meteor-mongodb) image for MongoDB database for your Meteor
+[tozd/meteor-mongodb](https://gitlab.com/tozd/docker/meteor-mongodb) image for MongoDB database for your Meteor
 application. You will probably want a HTTP reverse proxy in front. You can use [tozd/docker-nginx-proxy](https://gitlab.com/tozd/docker/nginx-proxy) image which provides [nginx](https://nginx.org/) configured as a reverse proxy with automatic SSL support provided by [Let's encrypt](https://letsencrypt.org/).
 
 When running Docker image with your Meteor application, you have to configure the following environment variables:
