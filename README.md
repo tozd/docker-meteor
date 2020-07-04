@@ -58,3 +58,8 @@ Meteor application is run.
 If you have to do anything to the base Docker image, before your Meteor application starts building (e.g., installing
 an Ubuntu package), add a `docker-source.sh` file to the root of your Meteor application and it will be run
 before the build.
+
+All images are rebuild daily to get any latest (security) updates from
+the underlying distribution.
+If you do the same in your image (which extends this image), you will
+get those updates as well.
