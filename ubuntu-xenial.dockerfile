@@ -10,6 +10,7 @@ ENV MONGO_URL mongodb://mongodb/meteor
 ENV MONGO_OPLOG_URL mongodb://mongodb/local
 ENV HOME /
 ENV LOG_TO_STDOUT 0
+ENV METEOR_NO_RELEASE_CHECK 1
 
 ARG METEOR_VERSION
 
