@@ -1,0 +1,46 @@
+image: alpine:3
+
+stages:
+  - setup
+  - trigger
+
+setup:
+  stage: setup
+  script:
+    - |
+      set -o errexit
+
+      apk add --update curl git
+      # get all meteor versions from github
+      versions=$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)
+      for version in ${versions}
+      do
+        # check if version exists / is downloadable
+        response=$(curl -I -v https://static-meteor.netdna-ssl.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz)
+        status_code=$(echo "${response}"|grep "200"|cut -d ' ' -f 2)
+        if [ "${status_code}" -eq 200 ]; then
+          echo "${version}" >> versions.txt
+        fi
+      done
+
+      for FILE in *.dockerfile ; do
+        while IFS= read -r VERSION
+        do
+          TAG="$(basename "$FILE" .dockerfile)-$VERSION"
+          sed -e "s/__TAG__/$TAG/g" -e "s/__FILE__/$FILE/g" -e "s/__BUILD_ARGS__/$BUILD_ARGS/g" .gitlab-ci-template.yml >> generated-gitlab-ci.yml
+        done < versions.txt
+      done
+
+  artifacts:
+    paths:
+      - versions.txt
+      - generated-gitlab-ci.yml
+
+trigger:
+  stage: trigger
+
+  trigger:
+    strategy: depend
+    include:
+    - artifact: generated-gitlab-ci.yml
+      job: setup
