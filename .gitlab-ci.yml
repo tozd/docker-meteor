@@ -1,0 +1,46 @@
+image: alpine:3
+
+stages:
+  - setup
+  - trigger
+
+setup:
+  stage: setup
+  script:
+    - |
+      set -o errexit
+      apk add --update git
+
+      # Get all Meteor versions from GitHub.
+      versions="$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)"
+      for version in ${versions} ; do
+        # Check if version really exists and is downloadable by checking one architecture directly.
+        # See: https://github.com/meteor/meteor/issues/11111
+        if wget -q --spider "https://static-meteor.netdna-ssl.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz" ; then
+          echo "${version}" >> versions.txt
+        fi
+      done
+
+      wget -O .gitlab-ci-template.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template.yml
+
+      for FILE in *.dockerfile ; do
+        while IFS= read -r VERSION ; do
+          TAG="$(basename "${FILE}" .dockerfile)-${VERSION}"
+          sed -e "s/__TAG__/${TAG}/g" -e "s/__FILE__/${FILE}/g" -e "s/__BUILD_ARGS__/--build-arg \"METEOR_VERSION=${VERSION}\"/g" .gitlab-ci-template.yml >> generated-gitlab-ci.yml
+        done < versions.txt
+      done
+
+  artifacts:
+    paths:
+      - .gitlab-ci-template.yml
+      - generated-gitlab-ci.yml
+      - versions.txt
+
+trigger:
+  stage: trigger
+
+  trigger:
+    strategy: depend
+    include:
+    - artifact: generated-gitlab-ci.yml
+      job: setup
