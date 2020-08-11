@@ -19,6 +19,8 @@ FROM tozd/meteor:ubuntu-focal-1.10.2
 
 Meteor version should be the version of Meteor you want to use to build your Meteor application.
 By using a fixed version of Meteor you achieve reproducible builds of your application.
+You can also specify the Ubuntu LTS version you want to use as the basis of your Docker image.
+In the example above, this is Ubuntu Focal.
 
 And your Meteor application is dockerized. To optimize image building, especially if you are building the image from a directory where you are also developing the application, add `.dockerignore` file with something like:
 
