@@ -5,7 +5,6 @@
 
 # An example script to run the app in production. It uses data volumes under the $DATA_ROOT directory.
 # By default /srv. It uses a MongoDB database, tozd/meteor-mongodb image which is automatically run as well.
-# Moreover, the example uses tozd/docker-hosts for service discovery. Feel free to use Docker container linking instead.
 
 NAME='example'
 DATA_ROOT='/srv'
@@ -40,12 +39,15 @@ docker stop "${NAME}_mongodb" || true
 sleep 1
 docker rm "${NAME}_mongodb" || true
 sleep 1
-# Mounted volume "/srv/var/hosts:/etc/hosts:ro" is used by tozd/docker-hosts service discovery and can be removed.
-docker run --detach=true --restart=always --name "${NAME}_mongodb" --hostname "${NAME}_mongodb" --volume /srv/var/hosts:/etc/hosts:ro --volume "${CONFIG}:/etc/service/mongod/run.config" --volume "${MONGODB_LOG}:/var/log/mongod" --volume "${MONGODB_DATA}:/var/lib/mongodb" tozd/meteor-mongodb:2.6
+docker run --detach=true --restart=always --name "${NAME}_mongodb" --hostname "${NAME}_mongodb" \
+ -volume "${CONFIG}:/etc/service/mongod/run.config" --volume "${MONGODB_LOG}:/var/log/mongod" --volume "${MONGODB_DATA}:/var/lib/mongodb" \
+ tozd/meteor-mongodb:3.4
 
 docker stop "${NAME}" || true
 sleep 1
 docker rm "${NAME}" || true
 sleep 1
-# Mounted volume "/srv/var/hosts:/etc/hosts:ro" is used by tozd/docker-hosts service discovery and can be removed.
-docker run --detach=true --restart=always --name "${NAME}" --hostname "${NAME}" --env ROOT_URL=http://example.com --env MAIL_URL=smtp://example.com --volume /srv/var/hosts:/etc/hosts:ro --volume "${CONFIG}:/etc/service/meteor/run.config" --volume "${METEOR_LOG}:/var/log/meteor" --volume "${METEOR_STORAGE}:/storage" you/example-app
+docker run --detach=true --restart=always --name "${NAME}" --hostname "${NAME}" \
+ --env ROOT_URL=http://example.com --env MAIL_URL=smtp://example.com \
+ --volume "${CONFIG}:/etc/service/meteor/run.config" --volume "${METEOR_LOG}:/var/log/meteor" \
+ you/example-app
