@@ -11,20 +11,17 @@ setup:
       set +e
       apk add --update git
 
-      # get all meteor versions from github
-      versions=$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)
-      for version in ${versions}
-      do
-        # check if version exists / is downloadable
-        status_code=$(wget --spider -S "https://static-meteor.netdna-ssl.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz"  2>&1 | awk '/HTTP\// {print $2}')
+      # Get all Meteor versions from GitHub.
+      versions="$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)"
+      for version in ${versions}; do
+        # Check if version exists and is downloadable by checking one architecture directly.
+        status_code=$(wget --spider -S "https://static-meteor.netdna-ssl.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz" 2>&1 | awk '/HTTP\// {print $2}')
         if [ "${status_code}" -eq 200 ]; then
           echo "${version}" >> versions.txt
         fi
       done
 
-      if [ ! -f .gitlab-ci-template.yml ]; then
-        wget -O .gitlab-ci-template.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template.yml
-      fi
+      wget -O .gitlab-ci-template.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template.yml
 
       for FILE in *.dockerfile ; do
         while IFS= read -r VERSION
