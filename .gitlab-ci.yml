@@ -8,7 +8,7 @@ setup:
   stage: setup
   script:
     - |
-      set +e
+      set -o errexit
       apk add --update git
 
       # Get all Meteor versions from GitHub.
