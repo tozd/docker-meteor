@@ -2,6 +2,13 @@
 
 <https://gitlab.com/tozd/docker/meteor>
 
+Available as:
+
+* [`tozd/meteor`](https://hub.docker.com/r/tozd/meteor)
+* [`registry.gitlab.com/tozd/docker/meteor`](https://gitlab.com/tozd/docker/meteor/container_registry)
+
+## Description
+
 Image which can serve as a base Docker image for dockerizing [Meteor](https://www.meteor.com/) applications.
 
 In the root directory of your Meteor application (the one with `.meteor` directory) create a `Dockerfile` file

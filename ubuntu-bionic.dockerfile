@@ -1,4 +1,4 @@
-FROM tozd/runit:ubuntu-bionic
+FROM registry.gitlab.com/tozd/docker/runit:ubuntu-bionic
 
 EXPOSE 3000/tcp
 
