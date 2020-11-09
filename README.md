@@ -82,3 +82,7 @@ All images are rebuild daily to get any latest (security) updates from
 the underlying distribution.
 If you do the same in your image (which extends any of these images), you will
 get those updates as well.
+
+## Testing image
+
+For testing Meteor applications, use [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing) Docker image instead.
