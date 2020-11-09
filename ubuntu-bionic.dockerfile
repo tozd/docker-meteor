@@ -18,6 +18,7 @@ VOLUME /var/log/meteor
 
 COPY ./etc /etc
 
+# Keep this layer in sync with tozd/meteor-testing.
 RUN apt-get update -q -q && \
  apt-get --yes --force-yes install curl python build-essential git && \
  export METEOR_ALLOW_SUPERUSER=true && \
