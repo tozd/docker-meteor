@@ -15,13 +15,13 @@ In the root directory of your Meteor application (the one with `.meteor` directo
 with the following content:
 
 ```
-FROM tozd/meteor:ubuntu-focal-<Meteor version>
+FROM registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-<Meteor version>
 ```
 
 For example:
 
 ```
-FROM tozd/meteor:ubuntu-focal-1.10.2
+FROM registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-1.10.2
 ```
 
 Meteor version should be the version of Meteor you want to use to build your Meteor application.
