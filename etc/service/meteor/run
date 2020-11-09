@@ -2,6 +2,9 @@
 
 export NODE_ENV="production"
 
+# Redirect stderr to stdout to preserve the order between stdout and stderr.
+exec 2>&1
+
 # File created by Dockerfile containing NODE_PATH to Meteor's node.
 # We are making Meteor's node be useful system wide.
 [ -f /etc/service/meteor/run.env ] && source /etc/service/meteor/run.env
@@ -33,4 +36,4 @@ cd /bundle
 # Initialization hook.
 [ -f /etc/service/meteor/run.initialization ] && source /etc/service/meteor/run.initialization
 
-exec chpst -u meteor:meteor /usr/local/bin/node --stack-trace-limit=1000 main.js 2>&1
+exec chpst -u meteor:meteor /usr/local/bin/node --stack-trace-limit=1000 main.js
