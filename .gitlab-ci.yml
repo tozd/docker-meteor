@@ -21,18 +21,21 @@ setup:
         fi
       done
 
-      wget -O .gitlab-ci-template.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template.yml
+      wget -O .gitlab-ci-template-header.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template-header.yml
+      wget -O .gitlab-ci-template-entry.yml https://gitlab.com/tozd/docker/base/-/raw/master/.gitlab-ci-template-entry.yml
 
+      cat .gitlab-ci-template-header.yml > generated-gitlab-ci.yml
       for FILE in *.dockerfile ; do
         while IFS= read -r VERSION ; do
           TAG="$(basename "${FILE}" .dockerfile)-${VERSION}"
-          sed -e "s/__TAG__/${TAG}/g" -e "s/__FILE__/${FILE}/g" -e "s/__BUILD_ARGS__/--build-arg \"METEOR_VERSION=${VERSION}\"/g" .gitlab-ci-template.yml >> generated-gitlab-ci.yml
+          sed -e "s/__TAG__/${TAG}/g" -e "s/__FILE__/${FILE}/g" -e "s/__BUILD_ARGS__/--build-arg \"METEOR_VERSION=${VERSION}\"/g" .gitlab-ci-template-entry.yml >> generated-gitlab-ci.yml
         done < versions.txt
       done
 
   artifacts:
     paths:
-      - .gitlab-ci-template.yml
+      - .gitlab-ci-template-header.yml
+      - .gitlab-ci-template-entry.yml
       - generated-gitlab-ci.yml
       - versions.txt
 
