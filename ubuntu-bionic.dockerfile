@@ -11,6 +11,7 @@ ENV MONGO_OPLOG_URL mongodb://mongodb/local
 ENV HOME /
 ENV LOG_TO_STDOUT 0
 ENV METEOR_NO_RELEASE_CHECK 1
+ENV METEOR_ALLOW_SUPERUSER true
 
 ARG METEOR_VERSION
 
@@ -20,8 +21,7 @@ COPY ./etc /etc
 
 # Keep this layer in sync with tozd/meteor-testing.
 RUN apt-get update -q -q && \
- apt-get --yes --force-yes install curl python build-essential git && \
- export METEOR_ALLOW_SUPERUSER=true && \
+ apt-get --yes --force-yes install curl python build-essential git && \\
  curl https://install.meteor.com/${METEOR_VERSION:+?release=${METEOR_VERSION}} | sed s/--progress-bar/-sL/g | sh && \
  apt-get --yes --force-yes purge curl && \
  apt-get --yes --force-yes autoremove && \
@@ -33,8 +33,7 @@ RUN apt-get update -q -q && \
  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
 ONBUILD COPY . /source
-ONBUILD RUN export METEOR_ALLOW_SUPERUSER=true && \
- rm -rf /source/.meteor/local /source/node_modules && \
+ONBUILD RUN rm -rf /source/.meteor/local /source/node_modules && \
  if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
  cp -a /source /build && \
  rm -rf /source && \
