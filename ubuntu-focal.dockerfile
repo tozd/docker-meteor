@@ -21,7 +21,7 @@ COPY ./etc /etc
 
 # Keep this layer in sync with tozd/meteor-testing.
 RUN apt-get update -q -q && \
- apt-get --yes --force-yes install curl python build-essential git && \\
+ apt-get --yes --force-yes install curl python build-essential git && \
  curl https://install.meteor.com/${METEOR_VERSION:+?release=${METEOR_VERSION}} | sed s/--progress-bar/-sL/g | sh && \
  apt-get --yes --force-yes purge curl && \
  apt-get --yes --force-yes autoremove && \
