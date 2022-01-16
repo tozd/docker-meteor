@@ -28,7 +28,7 @@ setup:
       for FILE in *.dockerfile ; do
         while IFS= read -r VERSION ; do
           TAG="$(basename "${FILE}" .dockerfile)-${VERSION}"
-          sed -e "s/__TAG__/${TAG}/g" -e "s/__FILE__/${FILE}/g" -e "s/__BUILD_ARGS__/--build-arg METEOR_VERSION=\"${VERSION}\"/g" .gitlab-ci-template-entry.yml >> generated-gitlab-ci.yml
+          sed -e "s/__TAG__/${TAG}/g" -e "s/__FILE__/${FILE}/g" -e "s/__BUILD_ARGS__/--build-arg METEOR_VERSION=${VERSION}/g" .gitlab-ci-template-entry.yml >> generated-gitlab-ci.yml
         done < versions.txt
       done
 
