@@ -15,9 +15,11 @@ setup:
       # Get all Meteor versions from GitHub.
       versions="$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)"
       for version in ${versions} ; do
-        # Check if version really exists and is downloadable by checking one architecture directly.
+        # Check if version is not on the blocklist and that it really exists
+        # and is downloadable by checking one architecture directly.
+        # See: https://github.com/meteor/meteor/issues/11856
         # See: https://github.com/meteor/meteor/issues/11111
-        if wget -q --spider "https://static.meteor.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz" ; then
+        if ! grep -x -q "${version}" blocklist.txt && wget -q --spider "https://static.meteor.com/packages-bootstrap/${version}/meteor-bootstrap-os.linux.x86_64.tar.gz" ; then
           echo "${version}" >> versions.txt
         fi
       done
