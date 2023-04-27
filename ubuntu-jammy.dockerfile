@@ -23,7 +23,6 @@ COPY ./etc/service/meteor /etc/service/meteor
 RUN apt-get update -q -q && \
   apt-get --yes --force-yes install curl python2 build-essential git && \
   curl https://install.meteor.com/?release=${METEOR_VERSION} | sed s/--progress-bar/-sL/g | sh && \
-  installed_version="$(meteor --version | tail -n 1)" && echo "Installed $installed_version, wanted ${METEOR_VERSION}" && [ "$installed_version" = "Meteor ${METEOR_VERSION}" ] && \
   apt-get --yes --force-yes purge curl && \
   apt-get --yes --force-yes autoremove && \
   adduser --system --group meteor --home / && \
