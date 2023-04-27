@@ -4,8 +4,39 @@
 
 Available as:
 
-* [`tozd/meteor`](https://hub.docker.com/r/tozd/meteor)
-* [`registry.gitlab.com/tozd/docker/meteor`](https://gitlab.com/tozd/docker/meteor/container_registry)
+- [`tozd/meteor`](https://hub.docker.com/r/tozd/meteor)
+- [`registry.gitlab.com/tozd/docker/meteor`](https://gitlab.com/tozd/docker/meteor/container_registry)
+
+## Image inheritance
+
+[`tozd/base`](https://gitlab.com/tozd/docker/base) ← [`tozd/runit`](https://gitlab.com/tozd/docker/runit) ← `tozd/meteor`
+
+See also [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing).
+
+## Tags
+
+- `ubuntu-xenial-*`: Meteor versions using Ubuntu 16.04 LTS (Xenial) as base
+- `ubuntu-bionic-*`: Meteor versions using Ubuntu 18.04 LTS (Bionic) as base
+- `ubuntu-focal-*`: Meteor versions using Ubuntu 20.04 LTS (Focal) as base
+
+## Volumes
+
+- `/var/log/meteor`: log files
+
+## Variables
+
+- `ROOT_URL`: Used by Meteor to construct [absolute URLs](http://docs.meteor.com/#/full/meteor_absoluteurl).
+  It should not contain a trailing `/`. Example: `http://example.com`.
+- `MAIL_URL`: Used to configure [e-mail server](http://docs.meteor.com/#/full/email).
+  Example: `smtp://user:password@mailhost:port/`.
+- `METEOR_SETTINGS`: JSON string of your [Meteor settings](http://docs.meteor.com/#/full/meteor_settings).
+- `MONGO_URL`: MongoDB database URL. Example: `mongodb://mongodb/meteor`.
+- `MONGO_OPLOG_URL`: MongoDB database oplog URL. Example: `mongodb://mongodb/local`.
+- `LOG_TO_STDOUT`: If set to `1` output logs to stdout (retrievable using `docker logs`) instead to `/var/log/meteor`.
+
+## Ports
+
+- `3000/tcp`: HTTP port on which Meteor app listens.
 
 ## Description
 
@@ -42,16 +73,7 @@ The intended use of this image is that it is run alongside the
 [tozd/meteor-mongodb](https://gitlab.com/tozd/docker/meteor-mongodb) image for MongoDB database for your Meteor
 application. You will probably want a HTTP reverse proxy in front. You can use [tozd/docker-nginx-proxy](https://gitlab.com/tozd/docker/nginx-proxy) image which provides [nginx](https://nginx.org/) configured as a reverse proxy with automatic SSL support provided by [Let's encrypt](https://letsencrypt.org/).
 
-When running Docker image with your Meteor application, you have to configure the following environment variables:
-
-* `ROOT_URL` – used by Meteor to construct [absolute URLs](http://docs.meteor.com/#/full/meteor_absoluteurl), it
-  should not contain a trailing `/`; example: `http://example.com`
-* `MAIL_URL` – used to configure [e-mail server](http://docs.meteor.com/#/full/email);
-  example: `smtp://user:password@mailhost:port/`
-* `METEOR_SETTINGS` – JSON string of your [Meteor settings](http://docs.meteor.com/#/full/meteor_settings)
-* `MONGO_URL` – MongoDB database URL; example: `mongodb://mongodb/meteor`
-* `MONGO_OPLOG_URL` – MongoDB database oplog URL; example: `mongodb://mongodb/local`
-* `LOG_TO_STDOUT` – if set to `1` log output to stdout instead to `/var/log/meteor`
+When running Docker image with your Meteor application, you should configure at least `ROOT_URL`, `MONGO_URL`, and `MONGO_OPLOG_URL` environment variables.
 
 You can specify those environment variables when running an image, but you can also export them from the script
 file volume mounted under `/etc/service/meteor/run.config`.
