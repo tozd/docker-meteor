@@ -6,6 +6,7 @@ stages:
 
 setup:
   stage: setup
+
   script:
     - |
       set -o errexit
