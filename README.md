@@ -18,6 +18,7 @@ See also [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing).
 - `ubuntu-xenial-*`: Meteor versions using Ubuntu 16.04 LTS (Xenial) as base
 - `ubuntu-bionic-*`: Meteor versions using Ubuntu 18.04 LTS (Bionic) as base
 - `ubuntu-focal-*`: Meteor versions using Ubuntu 20.04 LTS (Focal) as base
+- `ubuntu-jammy-*`: Meteor versions using Ubuntu 22.04 LTS (Jammy) as base
 
 ## Volumes
 
