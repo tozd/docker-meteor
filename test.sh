@@ -21,10 +21,10 @@ cd test
 echo "FROM ${CI_REGISTRY_IMAGE}:${TAG}" > Dockerfile
 
 echo "Building Docker image"
-docker build -t testimage -f Dockerfile .
+docker build -t testimage -f Dockerfile . || exit 6
 
 echo "Running Docker image"
-docker run -d --name test --rm -p 3000:3000 testimage || exit 6
+docker run -d --name test --rm -p 3000:3000 testimage || exit 7
 
 echo "Sleeping"
 sleep 10
@@ -34,6 +34,6 @@ wget -q -O - http://docker:3000 | grep -q '<title>SVG Clock Demo</title>'
 result=$?
 
 echo "Stopping Docker image"
-docker stop test || exit 7
+docker stop test || exit 8
 
 exit "$result"
