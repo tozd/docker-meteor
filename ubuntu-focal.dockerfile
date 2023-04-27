@@ -17,7 +17,7 @@ ARG METEOR_VERSION
 
 VOLUME /var/log/meteor
 
-COPY ./etc /etc
+COPY ./etc/service/meteor /etc/service/meteor
 
 # Keep this layer in sync with tozd/meteor-testing.
 RUN apt-get update -q -q && \
