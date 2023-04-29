@@ -24,47 +24,39 @@ function tryConnect(url) {
     }, 100);
   };
 
-  var params = {
-    options: {
+  // Connect to mongo instance
+  mongodb.MongoClient.connect(
+    url,
+    {
       useNewUrlParser: true,
-      socketTimeoutMS: 5000,
       connectTimeoutMS: 5000,
-    },
-    ping: function (client) {
-      return client.db(client.s.options.db).command({ ping: 1 }, handlePing);
-    },
-  };
-
-  // Backwards compatible with MongoClient v2
-  if (mongodb.MongoClient.define !== undefined) {
-    params = {
-      options: {
-        server: {
-          socketOptions: {
-            connectTimeoutMS: 5000,
-            socketTimeoutMS: 5000,
-          },
+      socketTimeoutMS: 5000,
+      // Backwards compatible with MongoClient v2
+      server: {
+        socketOptions: {
+          connectTimeoutMS: 5000,
+          socketTimeoutMS: 5000,
         },
       },
-      ping: function (client) {
-        return client.command({ ping: 1 }, handlePing);
-      },
-    };
-  }
+    },
+    function (error, client) {
+      if (error === null) {
+        // Backwards compatible with MongoClient v2
+        if (client.command) {
+          client.command({ ping: 1 }, handlePing);
+        } else {
+          client.db(client.s.options.db).command({ ping: 1 }, handlePing);
+        }
+        return;
+      } else {
+        console.error("Waiting for database", error);
+      }
 
-  // Connect to mongo instance
-  mongodb.MongoClient.connect(url, params.options, function (error, client) {
-    if (error === null) {
-      params.ping(client);
-      return;
-    } else {
-      console.error("Waiting for database", error);
+      setTimeout(function () {
+        tryConnect(url);
+      }, 100);
     }
-
-    setTimeout(function () {
-      tryConnect(url);
-    }, 100);
-  });
+  );
 }
 
 tryConnect(process.env.MONGO_URL);
