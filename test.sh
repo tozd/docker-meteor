@@ -104,8 +104,7 @@ echo "MONGODB_ADMIN_PWD='test'" > run.config
 echo "MONGODB_CREATE_PWD='test'" >> run.config
 echo "MONGODB_OPLOGGER_PWD='test'" >> run.config
 echo 'export MONGO_URL="mongodb://meteor:${MONGODB_CREATE_PWD}@mongotest/meteor"' >> run.config
-echo 'export MONGO_OPLOG_URL="mongodb://oplogger:${MONGODB_OPLOGGER_PWD}@mongotest/local?authSource=admin"
-' >> run.config
+echo 'export MONGO_OPLOG_URL="mongodb://oplogger:${MONGODB_OPLOGGER_PWD}@mongotest/local?authSource=admin"' >> run.config
 cleanup_config=1
 
 echo "Running MongoDB"
