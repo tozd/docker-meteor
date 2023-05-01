@@ -83,9 +83,10 @@ if [ $found -eq 0 ]; then
   if docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm version > /dev/null ; then
     if [ "$(version $METEOR_VERSION)" -ge "$(version "1.8.2")" ]; then
       time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime
-    else
-      time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save babel-runtime
+    elif [ "$(version $METEOR_VERSION)" -ge "$(version "1.6.1")" ]; then
       time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime@7.0.0-beta.55
+    elif [ "$(version $METEOR_VERSION)" -ge "$(version "1.4.2.1")" ]; then
+      time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save babel-runtime
     fi
   fi
 elif [ "$target" != "$METEOR_VERSION" ]; then
