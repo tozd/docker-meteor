@@ -20,6 +20,8 @@ See also [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing).
 - `ubuntu-focal-*`: Meteor versions using Ubuntu 20.04 LTS (Focal) as base
 - `ubuntu-jammy-*`: Meteor versions using Ubuntu 22.04 LTS (Jammy) as base
 
+Some versions are not build because [they have issues](./blocklist.txt).
+
 ## Volumes
 
 - `/var/log/meteor`: log files
