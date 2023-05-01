@@ -12,6 +12,10 @@ setup:
       set -o errexit
       apk add --update git
 
+      if [ ! -f blocklist.txt ]; then
+        wget -O blocklist.txt https://gitlab.com/tozd/docker/meteor/-/raw/master/blocklist.txt
+      fi
+
       # Get all Meteor versions from GitHub.
       versions="$(git ls-remote --tags https://github.com/meteor/meteor.git 'tags/release/METEOR@*' | cut -d '@' -f 2 | grep -v -)"
       for version in ${versions} ; do
