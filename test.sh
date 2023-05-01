@@ -79,24 +79,24 @@ if [ $found -eq 0 ]; then
   echo "Updating test app"
   git -C test checkout --quiet master
   echo "{}" > "test/package.json"
-  docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor update --release "$METEOR_VERSION"
+  time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor update --release "$METEOR_VERSION"
   if docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm version > /dev/null ; then
     if [ "$(version $METEOR_VERSION)" -ge "$(version "1.8.2")" ]; then
-      docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime
+      time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime
     else
-      docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save babel-runtime
-      docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime@7.0.0-beta.55
+      time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save babel-runtime
+      time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor npm install --save @babel/runtime@7.0.0-beta.55
     fi
   fi
 elif [ "$target" != "$METEOR_VERSION" ]; then
   # We could not find the exact version, so we use an older version and update it to the version we are testing.
   echo "Updating test app"
-  docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor update --release "$METEOR_VERSION"
+  time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "${CI_REGISTRY_IMAGE}:${TAG}" meteor update --release "$METEOR_VERSION"
 fi
 
 echo "Building Docker image"
 echo "FROM ${CI_REGISTRY_IMAGE}:${TAG}" > test/Dockerfile
-docker build -t testimage -f test/Dockerfile --build-arg NODE_TLS_REJECT_UNAUTHORIZED=0 test
+time docker build -t testimage -f test/Dockerfile --build-arg NODE_TLS_REJECT_UNAUTHORIZED=0 test
 cleanup_image=1
 
 echo "MONGODB_ADMIN_PWD='test'" > run.config
