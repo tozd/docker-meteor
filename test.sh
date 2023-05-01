@@ -96,7 +96,7 @@ fi
 
 echo "Building Docker image"
 echo "FROM ${CI_REGISTRY_IMAGE}:${TAG}" > test/Dockerfile
-docker build -t testimage -f test/Dockerfile test
+docker build -t testimage -f test/Dockerfile --build-arg NODE_TLS_REJECT_UNAUTHORIZED=0 test
 cleanup_image=1
 
 echo "MONGODB_ADMIN_PWD='test'" > run.config

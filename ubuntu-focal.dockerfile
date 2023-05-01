@@ -32,6 +32,9 @@ RUN apt-get update -q -q && \
   echo "export NODE_PATH=\"$(dirname $(dirname "$NODE"))/lib/node_modules\"" >> /etc/service/meteor/run.env && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache ~/.npm
 
+# Old Meteor versions can have troubles connecting to Let's encrypt sites (e.g., Meteor's Atmosphere),
+# so one can set NODE_TLS_REJECT_UNAUTHORIZED=0 to ignore TLS errors (which makes things unsecure).
+ONBUILD ARG NODE_TLS_REJECT_UNAUTHORIZED=1
 ONBUILD COPY . /source
 ONBUILD RUN rm -rf /source/.meteor/local /source/node_modules && \
   if [ -x /source/docker-source.sh ]; then /source/docker-source.sh; fi && \
@@ -40,7 +43,8 @@ ONBUILD RUN rm -rf /source/.meteor/local /source/node_modules && \
   cd /build && \
   meteor list && \
   if [ -f package.json ]; then meteor npm install --production --unsafe-perm; fi && \
-  meteor build --headless --directory / && \
+  export METEOR_HEADLESS=1 && \
+  meteor build --directory / && \
   cd / && \
   rm -rf /build && \
   if [ -e /bundle/programs/server/package.json ]; then cd /bundle/programs/server; npm install --unsafe-perm; fi && \
