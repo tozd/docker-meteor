@@ -24,7 +24,7 @@ Some versions are not build because [they have issues](./blocklist.txt).
 
 ## Volumes
 
-- `/var/log/meteor`: log files
+- `/var/log/meteor`: Log files.
 
 ## Variables
 
