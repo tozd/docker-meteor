@@ -111,3 +111,8 @@ get those updates as well.
 ## Testing image
 
 For testing Meteor applications, use [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing) Docker image instead.
+
+## GitHub mirror
+
+There is also a [read-only GitHub mirror available](https://github.com/tozd/docker-meteor),
+if you need to fork the project there.
