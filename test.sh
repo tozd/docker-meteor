@@ -13,8 +13,12 @@ cleanup_image=0
 cleanup_config=0
 cleanup() {
   if [ "$cleanup_docker" -ne 0 ]; then
+    echo "Logs"
+    docker logs test || true
+
     echo "Stopping Docker image"
-    docker stop test
+    docker stop test || true
+    docker rm -f test
   fi
 
   if [ "$cleanup_mongo" -ne 0 ]; then
@@ -112,7 +116,7 @@ docker run -d --name mongotest --rm -p 27017:27017 -v "$(pwd)/run.config:/etc/se
 cleanup_mongo=1
 
 echo "Running Docker image"
-docker run -d --name test --rm -p 3000:3000 -v "$(pwd)/run.config:/etc/service/meteor/run.config" --link mongotest:mongotest testimage
+docker run -d --name test -p 3000:3000 -v "$(pwd)/run.config:/etc/service/meteor/run.config" --link mongotest:mongotest testimage
 cleanup_docker=1
 
 # It is OK to sleep just for 10 seconds because Meteor Docker image knows how to wait for MongoDB to become ready.
