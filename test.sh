@@ -131,3 +131,4 @@ sleep 10
 
 echo "Testing"
 wget -T 30 -q -O - http://docker:3000 | grep -q '<title>SVG Clock Demo</title>'
+echo "Success"
