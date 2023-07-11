@@ -6,7 +6,5 @@ if [ "${LOG_TO_STDOUT}" != "1" ]; then
 
   exec chpst -u nobody:nogroup svlogd -tt /var/log/meteor
 else
-  # TODO: Exit with 115. See: https://gitlab.com/tozd/dinit/-/issues/1
-  exec chpst -u nobody:nogroup cat
+  exec chpst -u nobody:nogroup regex2json "^\\s*(?:(?P<___json___optional>\\{.*\\})|(?P<msg___optional>.+?))\\s*$"
 fi
-
