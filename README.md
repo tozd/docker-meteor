@@ -35,7 +35,7 @@ Some versions are not build because [they have issues](./blocklist.txt).
 - `METEOR_SETTINGS`: JSON string of your [Meteor settings](http://docs.meteor.com/#/full/meteor_settings).
 - `MONGO_URL`: MongoDB database URL. Example: `mongodb://mongodb/meteor`.
 - `MONGO_OPLOG_URL`: MongoDB database oplog URL. Example: `mongodb://mongodb/local`.
-- `LOG_TO_STDOUT`: If set to `1` output logs to stdout (retrievable using `docker logs`) instead to `/var/log/meteor`.
+- `LOG_TO_STDOUT`: If set to `1` output logs to stdout (retrievable using `docker logs`) instead of log volumes.
 
 ## Ports
 
