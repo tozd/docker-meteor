@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/tozd/docker/runit:ubuntu-jammy
+FROM registry.gitlab.com/tozd/docker/dinit:ubuntu-jammy
 
 EXPOSE 3000/tcp
 

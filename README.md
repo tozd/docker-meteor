@@ -9,7 +9,7 @@ Available as:
 
 ## Image inheritance
 
-[`tozd/base`](https://gitlab.com/tozd/docker/base) ← [`tozd/runit`](https://gitlab.com/tozd/docker/runit) ← `tozd/meteor`
+[`tozd/base`](https://gitlab.com/tozd/docker/base) ← [`tozd/dinit`](https://gitlab.com/tozd/docker/dinit) ← `tozd/meteor`
 
 See also [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing).
 

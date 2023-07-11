@@ -1,14 +1,12 @@
 #!/bin/bash -e
 
-# You can mount a volume (file) into this location to provide a script which sets environment variables.
-[ -f /etc/service/meteor/run.config ] && source /etc/service/meteor/run.config
-
 if [ "${LOG_TO_STDOUT}" != "1" ]; then
   mkdir -p /var/log/meteor
   chown nobody:nogroup /var/log/meteor
 
   exec chpst -u nobody:nogroup svlogd -tt /var/log/meteor
 else
-  exec chpst -u nobody:nogroup tee
+  # TODO: Exit with 115. See: https://gitlab.com/tozd/dinit/-/issues/1
+  exec chpst -u nobody:nogroup cat
 fi
 
