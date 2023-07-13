@@ -103,6 +103,8 @@ If you have to do anything to the base Docker image, before your Meteor applicat
 an Ubuntu package), add a `docker-source.sh` file to the root of your Meteor application and it will be run
 before the build.
 
+When `LOG_TO_STDOUT` is set to `1`, Docker image logs output to stdout and stderr. All stdout output is JSON.
+
 ## Testing image
 
 For testing Meteor applications, use [`tozd/meteor-testing`](https://gitlab.com/tozd/docker/meteor-testing) Docker image instead.
