@@ -1,5 +1,7 @@
 # tozd/meteor
 
+**DEPRECATED: Images are not maintained and not regularly updated anymore.**
+
 <https://gitlab.com/tozd/docker/meteor>
 
 Available as:
